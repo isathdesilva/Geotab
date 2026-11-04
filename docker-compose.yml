@@ -1,0 +1,19 @@
+services:
+  backend:
+    build: ./backend
+    environment:
+      EV_DATASET: cleaned
+    ports:
+      - "127.0.0.1:5000:8080"
+    init: true
+    restart: unless-stopped
+  frontend:
+    build: ./addin
+    environment:
+      BACKEND_URL: http://backend:8080
+      PORT: "8080"
+    ports:
+      - "127.0.0.1:3001:8080"
+    depends_on:
+      - backend
+    restart: unless-stopped
